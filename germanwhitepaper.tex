@@ -31,7 +31,7 @@
 	Wir definieren eine elektronische Münze (Coin) als eine Kette digitaler Signaturen. Jeder Eigentümer überträgt den Coin auf den nächsten, indem er einen Hash der vorherigen Transaktion sowie den öffentlichen Schlüssel des nächsten Eigentümers digital signiert und dies an das Ende des Coins anhängt. Der Empfänger der Zahlung kann die Signaturen verifizieren, um die Kette der Eigentümer zu verifizieren.
 	
 	\begin{center}
-		\includegraphics[scale=0.35]{pics/transactions.png}		
+		\includegraphics[scale=0.30]{pics/transactions.png}		
 	\end{center}
 
 	Das Problem ist natürlich, dass der Zahlungsempfänger nicht verifizieren kann, dass einer der Eigentümer den Coin nicht doppelt ausgegeben hat. Eine gebräuchliche Lösung ist, eine zentrale, vertrauenswürdige Instanz, oder Münzanstalt, einzuführen, die jede Transaktion auf Double Spending (Mehrfachausgabe) prüft. Nach jeder Transaktion muss der Coin an die Münzanstalt zurückgegeben werden, damit diese einen neuen Coin herausgibt und nur bei Coins, die direkt von der Münzanstalt ausgegeben wurden, kann darauf vertraut werden, dass sie nicht doppelt ausgegeben worden sind. Das Problem mit dieser Lösung ist, dass das Schicksal des gesamten Geldsystems von dem Unternehmen abhängt, das die Münzanstalt betreibt und dass jede Transaktion über dieses laufen muss, wie bei einer Bank.
@@ -39,6 +39,8 @@
 	Wir brauchen eine Methode, um Gewissheit für den Zahlungsempfänger zu schaffen, dass die vorherigen Eigentümer keine früheren Transaktionen signiert haben. Für unsere Zwecke ist die erste Transaktion diejenige, die zählt, so dass wir uns keine Sorgen über spätere Versuche zur Mehrfachausgabe machen müssen. Die einzige Möglichkeit, die Abwesenheit einer Transaktion zu bestätigen, ist es, alle Transaktionen zu kennen. In dem auf einer Münzanstalt basierenden Modell kannte die Münzanstalt alle Transaktionen und konnte entscheiden, welche zuerst eingetroffen ist. Um dies ohne vertrauenswürdige Partei zu erreichen, müssen Transaktionen öffentlich gemacht werden [1] und wir benötigen ein System, mit dem sich die Teilnehmer auf einen einzigen Verlauf der Reihenfolge, in der sie eingetroffen sind, einigen. Der Zahlungsempfänger benötigt einen Nachweis, dass sich zum Zeitpunkt jeder Transaktion die Mehrheit der Knoten des Netzwerks einig sind, dass sie diese zuerst empfangen haben.
 
 	\section{Zeitstempel-Server}
+	
+	Die von uns vorgeschlagene Lösung beginnt mit einem Zeitstempel-Server. Ein Zeitstempel-Server funktioniert, indem er den Hash eines Blocks von mit Zeitstempel zu versehenden Datensätzen nimmt und den Hash weitläufig, etwa in einer Zeitung oder in einem Usenet-Post, veröffentlicht [2–5]. Der Zeitstempel beweist, dass die Daten zu diesem Zeitpunkt existiert haben, offensichtlich, denn sonst gäbe es keinen Hash von ihnen. Jeder Zeitstempel beinhaltet in seinem Hash den vorhergegangenen Zeitstempel und bildet eine Kette, bei der jeder zusätzliche Zeitstempel die vorherigen verstärkt.
 	
 	\begin{center}
 		\includegraphics[scale=0.35]{pics/timestampserver.png}
