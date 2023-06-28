@@ -189,7 +189,7 @@
 
 	Der Empfänger generiert ein neues Schlüsselpaar und gibt den Public Key kurz vor dem Signieren an den Sender. Dies verhindern, dass der Sender bereits im Voraus eine Kette von Blocks vorbereitet, indem er so lange daran arbeitet, bis er ausreichend Glück gehabt hat, um einen ausreichend großen Vorsprung zu haben und dann die Transaktion in diesem Moment ausführt. Wenn die Transaktion einmal abgeschickt wurde, beginnt der unehrliche Sender insgeheim mit der Arbeit an einer parallelen Kette, die eine geänderte Version seiner Transaktion enthält.
 
-	Der Empfänger wartet, bis die Transaktion zu einem Block hinzugefügt wurde und z Blocks dahinter angefügt wurden. Er weiß nicht genau, welchen Fortschritt der Angreifer bereits gemacht hat, aber davon ausgehend, dass die ehrlichen Blocks die durchschnittliche Zeit pro Block benötigt haben, entspricht der potenzielle Fortschritt des Angreifers einer Poisson-Verteilung mit dem erwarteten Wert:
+	Der Empfänger wartet, bis die Transaktion zu einem Block hinzugefügt wurde und $z$ Blöcke dahinter angefügt wurden. Er weiß nicht genau, welchen Fortschritt der Angreifer bereits gemacht hat, aber davon ausgehend, dass die ehrlichen Blöcke die durchschnittliche Zeit pro Block benötigt haben, entspricht der potenzielle Fortschritt des Angreifers einer Poisson-Verteilung mit dem erwarteten Wert:
 	
 	\begin{flalign*}
 \indent \lambda = z \ \frac{q}{p} &&
