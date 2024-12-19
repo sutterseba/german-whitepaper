@@ -100,7 +100,7 @@
 		\item Die Nodes drücken ihre Akzeptanz des Blocks aus, indem sie an der Erstellung des nächsten Blocks in der Kette arbeiten. Dabei wird der Hash des akzeptierten Blocks als vorheriger Hash verwendet.
 	\end{enumerate}
 	
-	Nodes gehen immer davon aus, dass die längste Kette die korrekte ist und arbeiten daran, diese zu verlängern. Wenn zwei Knoten gleichzeitig verschiedene Versionen des nächsten Blocks übertragen, können einige Nodes die eine oder die andere Version zuerst empfangen. In diesem Fall arbeiten sie an der ersten, die sie empfangen haben, speichern aber den anderen Zweig für den Fall, dass dieser länger wird. Der Gleichstand wird gebrochen, wenn der nächste Proof-of-Work gefunden wird und ein Zweig länger wird; die Nodes, die am anderen Zweig gearbeitet haben, werden dann auf den längeren umschalten.
+	Nodes gehen immer davon aus, dass die längste Kette die korrekte ist und arbeiten daran, diese zu verlängern. Wenn zwei Nodes gleichzeitig verschiedene Versionen des nächsten Blocks übertragen, können einige Nodes die eine oder die andere Version zuerst empfangen. In diesem Fall arbeiten sie an der ersten, die sie empfangen haben, speichern aber den anderen Zweig für den Fall, dass dieser länger wird. Der Gleichstand wird gebrochen, wenn der nächste Proof-of-Work gefunden wird und ein Zweig länger wird; die Nodes, die am anderen Zweig gearbeitet haben, werden dann auf den längeren umschalten.
 
 	\newpage
 	
@@ -116,7 +116,7 @@
 
 	\section{Speicherplatz zurück gewinnen}
 	
-	Sobald die letzte Transaktion eines Coins unter ausreichend Blöcken begraben ist, können die verbrauchten Transaktionen davor gelöscht werden, um Speicherplatz zu sparen. Um dies zu ermöglichen, ohne den Hash des Blocks zu brechen, werden die Transaktionen in einem Merkle-Tree \cite{merkle}\cite{massias}\cite{haber2} gehasht. Lediglich die Wurzel wird in den Hash des Blocks aufgenommen. Alte Blöcke können dann komprimiert werden, indem Zweige des Baumes gekappt werden. Die internen Hashes müssen nicht gespeichert werden.
+	Sobald die letzte Transaktion eines Coins unter ausreichend Blöcken begraben ist, können die verbrauchten Transaktionen davor gelöscht werden, um Speicherplatz zu sparen. Um dies zu ermöglichen, ohne den Hash des Blocks zu brechen, werden die Transaktionen in einem Merkle-Tree \cite{merkle}\cite{massias}\cite{haber2} gehasht. Lediglich die Wurzel wird in den Hash des Blocks aufgenommen. Alte Blöcke können dann komprimiert werden, indem Zweige des Merkle-Trees gekappt werden. Die internen Hashes müssen nicht gespeichert werden.
 	
 	\begin{center}
 		\includegraphics[width=\textwidth]{pics/reclaimingdiskspace.png}
@@ -128,7 +128,7 @@
 	
 	\section{Vereinfachte Zahlungsverifizierung}
 	
-    Zahlungen können verifiziert werden, ohne eine kompletten Node im Netzwerk zu betreiben. Ein Nutzer muss lediglich eine Kopie der Blockheader der längsten Proof-of-Work-Kette aufbewahren. Diese erhält er, indem er andere Nodes so lange abfragt, bis er überzeugt ist, dass er die längste Kette hat und den Merkle-Zweig bezieht, der die Transaktion mit dem Block verknüpft, durch den sie einen Zeitstempel erhalten hat. Er kann die Transaktion nicht selbst prüfen. Aber indem er sie mit einer Stelle in der Kette verknüpft, kann er sehen, dass sie von einem Netzwerk-Knoten akzeptiert wurde. Blöcke, die danach angefügt wurden, bestätigen weiter, dass sie vom Netzwerk akzeptiert wurde.
+    Zahlungen können verifiziert werden, ohne eine kompletten Node im Netzwerk zu betreiben. Ein Nutzer muss lediglich eine Kopie der Blockheader der längsten Proof-of-Work-Kette aufbewahren. Diese erhält er, indem er andere Nodes so lange abfragt, bis er überzeugt ist, dass er die längste Kette hat und den Merkle-Tree-Zweig bezieht, der die Transaktion mit dem Block verknüpft, durch den sie einen Zeitstempel erhalten hat. Er kann die Transaktion nicht selbst prüfen. Aber indem er sie mit einer Stelle in der Kette verknüpft, kann er sehen, dass sie von einem Netzwerk-Knoten akzeptiert wurde. Blöcke, die danach angefügt wurden, bestätigen weiter, dass sie vom Netzwerk akzeptiert wurde.
 	
 	\begin{center}
 		\includegraphics[width=\textwidth]{pics/spv.png}
@@ -138,7 +138,7 @@
 
 	\section{Zusammenführung und Aufteilung von Werten}
 	
-    Obgleich es möglich wäre, Coins einzeln zu behandeln, wäre es unpraktisch, für jeden Cent einer Überweisung eine separate Transaktion durchzuführen. Damit Werte aufgeteilt und zusammengeführt werden können, enthalten Transaktionen mehrere Inputs und Outputs. Normalerweise gibt es entweder einen einzelnen Input von einer größeren vorausgegangenen Transaktion oder mehrere Inputs, die kleinere Beträge zusammenfassen. Daneben gibt es höchstens zwei Ausgänge: einen für die Zahlung und einen, der das Wechselgeld, falls vorhanden, an den Absender zurückgibt.
+    Obgleich es möglich wäre, Coins einzeln zu behandeln, wäre es unpraktisch, für jeden Cent einer Überweisung eine separate Transaktion durchzuführen. Damit Werte aufgeteilt und zusammengeführt werden können, enthalten Transaktionen mehrere Ein- und Ausgänge. Normalerweise gibt es entweder einen einzelnen Input von einer größeren vorausgegangenen Transaktion oder mehrere Eingänge, die kleinere Beträge zusammenfassen. Daneben gibt es höchstens zwei Ausgänge: einen für die Zahlung und einen, der das Wechselgeld, falls vorhanden, an den Absender zurückgibt.
 	
 	\begin{center}
 		\includegraphics[width=\textwidth]{pics/combineandsplit.png}
@@ -174,8 +174,8 @@
 	\begin{flalign*}
 \indent q_z = 
 	\begin{cases}
-		1, & \text{if} \ p \leq q \\
-		(q/p)^z, & \text{if} \ p \geq q
+		1 & \text{if} \ p \leq q \\
+		(q/p)^z & \text{if} \ p > q
 	\end{cases}
 \Biggl\} &&
 	\end{flalign*}
@@ -200,8 +200,8 @@
 	\begin{flalign*}
 \indent \sum_{k = 0}^{\infty} \frac{\lambda^k e^{-\lambda}}{k!} \cdot 
 	\begin{cases}
-		(q/p)^{(z-k)}, & \text{if} \ k \leq z\\
-		1, & \text{if} \ k > z
+		(q/p)^{(z-k)} & \text{if} \ k \leq z\\
+		1 & \text{if} \ k > z
 	\end{cases}
 \Biggl\}&&
 	\end{flalign*}
@@ -210,7 +210,7 @@
 	\noindent Wir stellen die Formel um, um zu vermeiden, dass die unendlichen Nachkommastellen der Verteilung addiert werden…
 	
 	\begin{flalign*}
-\indent 1 - \sum_{k = 0}^{z} \frac{\lambda^k e^{-\lambda}}{k!} (1- (p/q)^{(z-k)})&&
+\indent 1 - \sum_{k = 0}^{z} \frac{\lambda^k e^{-\lambda}}{k!} (1- (q/p)^{(z-k)})&&
 	\end{flalign*}
 	\vspace{2mm}
 	
@@ -241,33 +241,33 @@ double AttackerSuccessProbability(double q, int z)
 	
 	\begin{verbatim}
   q=0.1
-  z=0 P=1.0000000
-  z=1 P=0.2045873
-  z=2 P=0.0509779
-  z=3 P=0.0131722
-  z=4 P=0.0034552
-  z=5 P=0.0009137
-  z=6 P=0.0002428
-  z=7 P=0.0000647
-  z=8 P=0.0000173
-  z=9 P=0.0000046
-  z=10 P=0.0000012
+  z=0    P=1.0000000
+  z=1    P=0.2045873
+  z=2    P=0.0509779
+  z=3    P=0.0131722
+  z=4    P=0.0034552
+  z=5    P=0.0009137
+  z=6    P=0.0002428
+  z=7    P=0.0000647
+  z=8    P=0.0000173
+  z=9    P=0.0000046
+  z=10   P=0.0000012
 
   q=0.3
-  z=0 P=1.0000000
-  z=5 P=0.1773523
-  z=10 P=0.0416605
-  z=15 P=0.0101008
-  z=20 P=0.0024804
-  z=25 P=0.0006132
-  z=30 P=0.0001522
-  z=35 P=0.0000379
-  z=40 P=0.0000095
-  z=45 P=0.0000024
-  z=50 P=0.0000006
+  z=0    P=1.0000000
+  z=5    P=0.1773523
+  z=10   P=0.0416605
+  z=15   P=0.0101008
+  z=20   P=0.0024804
+  z=25   P=0.0006132
+  z=30   P=0.0001522
+  z=35   P=0.0000379
+  z=40   P=0.0000095
+  z=45   P=0.0000024
+  z=50   P=0.0000006
 	\end{verbatim}
 	
-	\noindent Auflösung für $P$ kleiner als $0,1\%$ …
+	\noindent Auflösung für $P$ kleiner als $0.1\%$ …
 	
 	\begin{verbatim}
   P < 0.001
@@ -278,7 +278,7 @@ double AttackerSuccessProbability(double q, int z)
   q=0.30 z=24
   q=0.35 z=41
   q=0.40 z=89
-  sq=0.45 z=340
+  q=0.45 z=340
 	\end{verbatim}
 	
 	\section{Fazit}
